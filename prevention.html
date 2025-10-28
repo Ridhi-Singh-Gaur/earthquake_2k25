@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Earthquake Prevention Measures</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .flip-card-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 30px; /* previously 20px, now thoda aur gap */
+        justify-content: center;
+        margin: 30px 0; /* thoda top-bottom spacing */
+    }
+
+    .flip-card {
+        background-color: transparent;
+        width: 250px;
+        height: 150px;
+        perspective: 1000px;
+        margin: 10px; /* card ke charo taraf extra spacing */
+    }
+    .flip-card-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      text-align: center;
+      transition: transform 0.6s;
+      transform-style: preserve-3d;
+      cursor: pointer;
+    }
+
+    .flip-card:hover .flip-card-inner {
+      transform: rotateY(180deg);
+    }
+
+    .flip-card-front, .flip-card-back {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      backface-visibility: hidden;
+      border-radius: 10px;
+      padding: 15px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .flip-card-front {
+      background-color: #f0a500;
+      color: white;
+      font-weight: bold;
+      font-size: 1.1rem;
+    }
+
+    .flip-card-back {
+      background-color: #004d40;
+      color: white;
+      transform: rotateY(180deg);
+      font-size: 0.95rem;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <h1>Earthquake Prevention & Safety Measures</h1>
+      <p class="muted">Learn practical steps to stay safe before, during, and after an earthquake.</p>
+    </div>
+  </header>
+
+  <main class="container">
+    <h2>Earthquake Safety Tips</h2>
+
+    <div class="flip-card-container">
+      <!-- Before an Earthquake -->
+      <div class="flip-card">
+        <div class="flip-card-inner">
+          <div class="flip-card-front">Secure Furniture</div>
+          <div class="flip-card-back">Secure heavy furniture, appliances, and wall mountings to prevent falling hazards.</div>
+        </div>
+      </div>
+
+      <div class="flip-card">
+        <div class="flip-card-inner">
+          <div class="flip-card-front">Emergency Kit</div>
+          <div class="flip-card-back">Keep an emergency kit with water, torch, first-aid, and radio ready for quick access.</div>
+        </div>
+      </div>
+
+      <div class="flip-card">
+        <div class="flip-card-inner">
+          <div class="flip-card-front">Family Plan</div>
+          <div class="flip-card-back">Prepare a family evacuation and communication plan so everyone knows where to go.</div>
+        </div>
+      </div>
+
+      <div class="flip-card">
+        <div class="flip-card-inner">
+          <div class="flip-card-front">Safe Spots</div>
+          <div class="flip-card-back">Identify safe spots in each room like under tables or against walls away from windows.</div>
+        </div>
+      </div>
+
+      <!-- During an Earthquake -->
+      <div class="flip-card">
+        <div class="flip-card-inner">
+          <div class="flip-card-front">Drop, Cover, Hold On</div>
+          <div class="flip-card-back">Protect your head and neck, stay low, and hold on to sturdy furniture.</div>
+        </div>
+      </div>
+
+      <div class="flip-card">
+        <div class="flip-card-inner">
+          <div class="flip-card-front">Go Outdoors Safely</div>
+          <div class="flip-card-back">If outdoors, move to an open area away from buildings, trees, and power lines.</div>
+        </div>
+      </div>
+
+      <div class="flip-card">
+        <div class="flip-card-inner">
+          <div class="flip-card-front">Avoid Hazards</div>
+          <div class="flip-card-back">Avoid elevators and unsecured objects that may fall during shaking.</div>
+        </div>
+      </div>
+
+      <div class="flip-card">
+        <div class="flip-card-inner">
+          <div class="flip-card-front">Stay Calm</div>
+          <div class="flip-card-back">Remain calm and follow your pre-planned safety protocol to reduce panic.</div>
+        </div>
+      </div>
+
+      <!-- After an Earthquake -->
+      <div class="flip-card">
+        <div class="flip-card-inner">
+          <div class="flip-card-front">Check Injuries</div>
+          <div class="flip-card-back">Check yourself and others for injuries and provide first aid if necessary.</div>
+        </div>
+      </div>
+
+      <div class="flip-card">
+        <div class="flip-card-inner">
+          <div class="flip-card-front">Inspect Surroundings</div>
+          <div class="flip-card-back">Inspect your surroundings for structural damage and potential hazards.</div>
+        </div>
+      </div>
+
+      <div class="flip-card">
+        <div class="flip-card-inner">
+          <div class="flip-card-front">Turn Off Gas</div>
+          <div class="flip-card-back">Turn off gas if you suspect a leak and avoid using open flames.</div>
+        </div>
+      </div>
+
+      <div class="flip-card">
+        <div class="flip-card-inner">
+          <div class="flip-card-front">Be Prepared</div>
+          <div class="flip-card-back">Be ready for aftershocks and follow instructions from local authorities.</div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <footer>
+    <p style="text-align:center;">
+      Made with <span style="color:red;">&#10084;</span> by Nidhi, Rajni, and Ridhi
+    </p>
+  </footer>
+</body>
+</html>

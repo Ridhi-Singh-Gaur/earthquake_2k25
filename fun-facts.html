@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Earthquake Fun Facts</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .flip-card-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 30px;
+        justify-content: center;
+        margin: 30px 0;
+    }
+
+    .flip-card {
+        background-color: transparent;
+        width: 250px;
+        height: 150px;
+        perspective: 1000px;
+        margin: 10px;
+    }
+    .flip-card-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      text-align: center;
+      transition: transform 0.6s;
+      transform-style: preserve-3d;
+      cursor: pointer;
+    }
+
+    .flip-card:hover .flip-card-inner {
+      transform: rotateY(180deg);
+    }
+
+    .flip-card-front, .flip-card-back {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      backface-visibility: hidden;
+      border-radius: 10px;
+      padding: 15px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .flip-card-front {
+      background-color: #f0a500;
+      color: white;
+      font-weight: bold;
+      font-size: 1.1rem;
+    }
+
+    .flip-card-back {
+      background-color: #004d40;
+      color: white;
+      transform: rotateY(180deg);
+      font-size: 0.95rem;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <h1>Earthquake Fun Facts</h1>
+      <p class="muted">Interesting facts about earthquakes from around the world.</p>
+    </div>
+  </header>
+
+  <main class="container">
+    <h2>Fun Facts</h2>
+
+    <div class="flip-card-container">
+      <div class="flip-card">
+        <div class="flip-card-inner">
+          <div class="flip-card-front">Largest Earthquake</div>
+          <div class="flip-card-back">The largest earthquake ever recorded was 9.5 magnitude in Chile, 1960.</div>
+        </div>
+      </div>
+
+      <div class="flip-card">
+        <div class="flip-card-inner">
+          <div class="flip-card-front">Most Earthquake-Prone Country</div>
+          <div class="flip-card-back">Japan experiences frequent earthquakes due to tectonic plate activity.</div>
+        </div>
+      </div>
+
+      <div class="flip-card">
+        <div class="flip-card-inner">
+          <div class="flip-card-front">Deepest Recorded Earthquake</div>
+          <div class="flip-card-back">Approximately 700 km below the surface in Fiji.</div>
+        </div>
+      </div>
+
+      <div class="flip-card">
+        <div class="flip-card-inner">
+          <div class="flip-card-front">Smallest Detectable Earthquake</div>
+          <div class="flip-card-back">Seismographs can detect earthquakes smaller than magnitude 1.0.</div>
+        </div>
+      </div>
+
+      <div class="flip-card">
+        <div class="flip-card-inner">
+          <div class="flip-card-front">Fastest Seismic Waves</div>
+          <div class="flip-card-back">P-waves travel up to 8 km/s through Earth's interior.</div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <footer>
+    <p style="text-align:center;">
+      Made with <span style="color:red;">&#10084;</span> by Nidhi, Rajni, and Ridhi
+    </p>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Recent Earthquakes</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <div class="container">
+      <h1>Recent Earthquakes in the World</h1>
+      <p class="muted">Data fetched from USGS GeoJSON feed (past day, last 24 hours)</p>
+    </div>
+  </header>
+
+  <main class="container">
+    <div>
+      <label class="muted">Minimum magnitude filter:</label>
+      <select id="min-mag">
+        <option value="0">All</option>
+        <option value="1">1.0+</option>
+        <option value="2">2.0+</option>
+        <option value="3" selected>3.0+</option>
+        <option value="4">4.0+</option>
+      </select>
+      <button id="refresh-btn">Refresh</button>
+    </div>
+    <div id="quake-list" class="quake-list"></div>
+  </main>
+    <footer>
+        <p style="text-align:center;">
+            Made with <span style="color:red;">&#10084;</span> by Nidhi, Rajni, and Ridhi
+        </p>
+    </footer>
+
+  <script>
+    async function fetchEarthquakes(){
+      const minMag = Number(document.getElementById('min-mag').value);
+      const list = document.getElementById('quake-list');
+      list.innerHTML = '<div class="muted">Loading…</div>';
+
+      try{
+        const url = 'https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_day.geojson';
+        const res = await fetch(url);
+        if(!res.ok) throw new Error('Feed not available');
+        const data = await res.json();
+
+        const events = data.features
+          .map(f => ({
+            mag: f.properties.mag,
+            place: f.properties.place,
+            time: new Date(f.properties.time),
+            url: f.properties.url
+          }))
+          .filter(f => (f.mag || 0) >= minMag)
+          .sort((a,b) => b.time - a.time);
+
+        if(events.length===0){
+          list.innerHTML = '<div class="muted">No earthquakes matching filter.</div>';
+          return;
+        }
+
+        list.innerHTML = '';
+        events.forEach(e => {
+          const el = document.createElement('div');
+          el.className = 'quake-item';
+          el.innerHTML = `<strong>M ${e.mag?.toFixed(1) ?? '—'}</strong> — ${escapeHtml(e.place)}<div class="muted">${e.time.toLocaleString()}</div><a href="${e.url}" target="_blank">Details</a>`;
+          list.appendChild(el);
+        });
+      }catch(err){
+        list.innerHTML = '<div class="muted">Could not load earthquakes.</div>';
+        console.error(err);
+      }
+    }
+
+    function escapeHtml(s){
+      return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":"&#39;"}[c]));
+    }
+
+    document.getElementById('refresh-btn').addEventListener('click', fetchEarthquakes);
+    document.getElementById('min-mag').addEventListener('change', fetchEarthquakes);
+
+    fetchEarthquakes();
+  </script>
+</body>
+</html>

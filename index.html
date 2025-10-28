@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Earthquake Hub — Home</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr); /* strictly 2 columns */
+      gap: 25px;
+      justify-items: center;
+      margin: 30px 0;
+    }
+
+    .card {
+      background-color: #ffd54f;
+      color: #333;
+      padding: 25px;
+      border-radius: 12px;
+      width: 280px;
+      min-height: 160px;
+      text-align: center;
+      box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+      transition: transform 0.2s, box-shadow 0.2s, background-color 0.2s;
+      text-decoration: none;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .card h2 {
+      margin: 0 0 12px 0;
+      font-size: 1.3rem;
+      color: #333;
+    }
+
+    .card p {
+      margin: 0;
+      font-size: 1rem;
+      color: #555;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(0,0,0,0.25);
+      background-color: #ffca28;
+    }
+
+    /* Responsive adjustment for smaller screens */
+    @media (max-width: 600px) {
+      .card-grid {
+        grid-template-columns: 1fr; /* stack in single column on mobile */
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <nav>
+        <div class="brand">Earthquake Hub</div>
+        <div>
+          <a href="predict.html">Predict</a>
+          <a href="recent.html">Recent Quakes</a>
+          <a href="prevention.html">Prevention</a>
+          <a href="fun-facts.html">Fun Facts</a>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="container hero">
+    <h1 style="text-align:center;">Stay Prepared, Stay Safe</h1>
+    <p class="muted" style="text-align:center;">Monitor earthquakes, predict risks, and learn safety measures.</p>
+
+
+    <div class="card-grid">
+      <a href="predict.html" class="card">
+        <h2>Predict Earthquakes</h2>
+        <p>Try an illustrative earthquake risk predictor. Enter your location to see estimated risk scores.</p>
+      </a>
+
+      <a href="recent.html" class="card">
+        <h2>Recent Quakes</h2>
+        <p>View latest earthquakes worldwide with real-time magnitude and location data.</p>
+      </a>
+
+      <a href="prevention.html" class="card">
+        <h2>Prevention</h2>
+        <p>Learn practical safety measures to follow before, during, and after an earthquake.</p>
+      </a>
+
+      <a href="fun-facts.html" class="card">
+        <h2>Fun Facts</h2>
+        <p>Discover interesting facts about earthquakes, tectonic plates, and seismic waves.</p>
+      </a>
+    </div>
+  </section>
+
+  <!-- Educational Snippet -->
+  <section class="container">
+    <h2 style="text-align:center;">Earthquake Fact</h2>
+    <p style="text-align:center;">Did you know? The largest earthquake ever recorded was <strong>9.5 magnitude in Chile, 1960</strong>.</p>
+  </section>
+
+  <footer>
+    <p style="text-align:center;">
+      Made with <span style="color:red;">&#10084;</span> by Nidhi, Rajni, and Ridhi
+    </p>
+  </footer>
+</body>
+</html>
