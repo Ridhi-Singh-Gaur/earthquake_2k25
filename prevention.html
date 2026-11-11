@@ -6,60 +6,30 @@
   <title>Earthquake Prevention Measures</title>
   <link rel="stylesheet" href="style.css">
   <style>
+    body {
+      background: linear-gradient(135deg, #061c2d, #0d3551 42%, #103d5f);
+      color: #ebf6ff;
+    }
+
+    header {
+      background: rgba(8, 19, 29, 0.72);
+      border-bottom: 1px solid rgba(148, 163, 184, 0.22);
+    }
+
+    .container {
+      max-width: 1180px;
+    }
+
+    main.container {
+      padding-top: 26px;
+    }
+
     .flip-card-container {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 30px; /* previously 20px, now thoda aur gap */
-        justify-content: center;
-        margin: 30px 0; /* thoda top-bottom spacing */
-    }
-
-    .flip-card {
-        background-color: transparent;
-        width: 250px;
-        height: 150px;
-        perspective: 1000px;
-        margin: 10px; /* card ke charo taraf extra spacing */
-    }
-    .flip-card-inner {
-      position: relative;
-      width: 100%;
-      height: 100%;
-      text-align: center;
-      transition: transform 0.6s;
-      transform-style: preserve-3d;
-      cursor: pointer;
-    }
-
-    .flip-card:hover .flip-card-inner {
-      transform: rotateY(180deg);
-    }
-
-    .flip-card-front, .flip-card-back {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      backface-visibility: hidden;
-      border-radius: 10px;
-      padding: 15px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
       display: flex;
-      align-items: center;
+      flex-wrap: wrap;
+      gap: 24px;
       justify-content: center;
-    }
-
-    .flip-card-front {
-      background-color: #f0a500;
-      color: white;
-      font-weight: bold;
-      font-size: 1.1rem;
-    }
-
-    .flip-card-back {
-      background-color: #004d40;
-      color: white;
-      transform: rotateY(180deg);
-      font-size: 0.95rem;
+      margin: 36px 0;
     }
   </style>
 </head>
@@ -167,7 +137,7 @@
 
   <footer>
     <p style="text-align:center;">
-      Made with <span style="color:red;">&#10084;</span> by Nidhi, Rajni, and Ridhi
+      Made with <span style="color:red;">&#10084;</span> by Nidhi, Prachi, Rajni, and Ridhi
     </p>
   </footer>
 </body>

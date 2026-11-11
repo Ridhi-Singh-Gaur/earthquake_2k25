@@ -1,0 +1,317 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Earthquake Model Classifier</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    main {
+      max-width: 920px;
+      padding-top: 40px;
+    }
+
+    .prediction-panel {
+      margin-top: 24px;
+      padding: clamp(22px, 4vw, 38px);
+      border: 1px solid rgba(148, 163, 184, 0.22);
+      border-radius: 24px;
+      background: rgba(9, 25, 36, 0.82);
+      box-shadow: 0 22px 48px rgba(2, 10, 18, 0.24);
+    }
+
+    .prediction-panel h2 {
+      color: #ffd166;
+    }
+
+    .intro, .disclaimer {
+      color: #c5d8ee;
+      line-height: 1.75;
+    }
+
+    .prediction-form {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+      margin-top: 26px;
+    }
+
+    .field {
+      display: grid;
+      gap: 7px;
+    }
+
+    .field label {
+      color: #e8f4ff;
+      font-weight: 600;
+    }
+
+    .field input, .field select {
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    .field select option {
+      background: #102c40;
+      color: #ebf6ff;
+    }
+
+    .form-actions, .service-note, .result, .disclaimer {
+      grid-column: 1 / -1;
+    }
+
+    .form-actions {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-top: 6px;
+    }
+
+    .form-actions button {
+      padding: 13px 20px;
+    }
+
+    .result {
+      padding: 15px 18px;
+      border: 1px solid rgba(125, 211, 252, 0.22);
+      border-left: 4px solid #38bdf8;
+      border-radius: 14px;
+      background: rgba(56, 189, 248, 0.07);
+      color: #e8f4ff;
+      line-height: 1.6;
+    }
+
+    .result:empty {
+      display: none;
+    }
+
+    .result.error {
+      border-color: rgba(255, 190, 92, 0.32);
+      border-left-color: #ffbe5c;
+      background: rgba(255, 190, 92, 0.08);
+      color: #ffe4b5;
+    }
+
+    .result.success {
+      border-color: rgba(74, 222, 128, 0.3);
+      border-left-color: #4ade80;
+      background: rgba(74, 222, 128, 0.08);
+      color: #d7ffe5;
+      font-size: 1.35rem;
+      font-weight: 800;
+    }
+
+    .service-note {
+      display: none;
+      margin: 0;
+      padding: 12px 15px;
+      border: 1px solid rgba(255, 190, 92, 0.2);
+      border-radius: 12px;
+      background: rgba(255, 190, 92, 0.06);
+      color: #ffe4b5;
+      font-size: 0.92rem;
+      line-height: 1.6;
+    }
+
+    .service-note.visible {
+      display: block;
+    }
+
+    .disclaimer {
+      margin: 0;
+      padding-top: 4px;
+      font-size: 0.92rem;
+    }
+
+    .back-link {
+      display: inline-block;
+      margin-top: 22px;
+      color: #7dd3fc;
+      font-weight: 600;
+      text-decoration: none;
+    }
+
+    .back-link:hover {
+      text-decoration: underline;
+    }
+
+    @media (max-width: 640px) {
+      .prediction-form {
+        grid-template-columns: 1fr;
+      }
+
+      .form-actions, .service-note, .result, .disclaimer {
+        grid-column: 1;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <h1>Earthquake Magnitude Estimate</h1>
+      <p class="muted">Estimate an event’s magnitude from its recorded characteristics.</p>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="prediction-panel" aria-labelledby="classifier-title">
+      <h2 id="classifier-title">Estimate magnitude</h2>
+      <p class="intro">
+        Enter event characteristics to estimate its magnitude using the project’s trained data.
+        For magnitude type, network, and region, choose a dataset suggestion or enter its exact label.
+      </p>
+
+      <form class="prediction-form" id="prediction-form">
+        <div class="field">
+          <label for="month">Month</label>
+          <select id="month" name="month" required>
+            <option value="">Select a month</option>
+            <option value="1">January</option><option value="2">February</option>
+            <option value="3">March</option><option value="4">April</option>
+            <option value="5">May</option><option value="6">June</option>
+            <option value="7">July</option><option value="8">August</option>
+            <option value="9">September</option><option value="10">October</option>
+            <option value="11">November</option><option value="12">December</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="latitude">Latitude</label>
+          <input id="latitude" name="latitude" type="number" min="-90" max="90" step="any" required>
+        </div>
+        <div class="field">
+          <label for="longitude">Longitude</label>
+          <input id="longitude" name="longitude" type="number" min="-180" max="180" step="any" required>
+        </div>
+        <div class="field">
+          <label for="depth">Depth (km)</label>
+          <input id="depth" name="depth" type="number" min="0" step="any" required>
+        </div>
+        <div class="field">
+          <label for="magType">Magnitude type</label>
+          <input id="magType" name="magType" type="text" list="magType-options" placeholder="e.g. mb" required>
+          <datalist id="magType-options"></datalist>
+        </div>
+        <div class="field">
+          <label for="nst">Number of seismic stations (nst)</label>
+          <input id="nst" name="nst" type="number" min="0" step="any" required>
+        </div>
+        <div class="field">
+          <label for="gap">Azimuthal gap</label>
+          <input id="gap" name="gap" type="number" min="0" step="any" required>
+        </div>
+        <div class="field">
+          <label for="dmin">Minimum distance (dmin)</label>
+          <input id="dmin" name="dmin" type="number" min="0" step="any" required>
+        </div>
+        <div class="field">
+          <label for="rms">RMS residual</label>
+          <input id="rms" name="rms" type="number" min="0" step="any" required>
+        </div>
+        <div class="field">
+          <label for="net">Seismic network</label>
+          <input id="net" name="net" type="text" list="net-options" placeholder="e.g. us" required>
+          <datalist id="net-options"></datalist>
+        </div>
+        <div class="field">
+          <label for="place">Region or country</label>
+          <input id="place" name="place" type="text" list="place-options" placeholder="e.g. Papua New Guinea" required>
+          <datalist id="place-options"></datalist>
+        </div>
+        <div class="form-actions">
+          <button type="submit" id="submit-button">Estimate magnitude</button>
+          <span class="muted">The model trains when you submit.</span>
+        </div>
+        <p class="service-note" id="service-note" role="status"></p>
+        <div class="result" id="result" role="status" aria-live="polite"></div>
+        <p class="disclaimer">
+          This estimates the magnitude for the event characteristics entered. It does
+          <strong>not</strong> predict whether or when a future earthquake will occur and is not
+          an official hazard assessment.
+        </p>
+      </form>
+      <a class="back-link" href="index.html">← Back to Earthquake Hub</a>
+    </section>
+  </main>
+
+  <footer>
+    <p>Made with <span aria-label="love">&#10084;</span> by Nidhi, Prachi, Rajni, and Ridhi</p>
+  </footer>
+
+  <script>
+    const form = document.getElementById('prediction-form');
+    const result = document.getElementById('result');
+    const submitButton = document.getElementById('submit-button');
+    const serviceNote = document.getElementById('service-note');
+    const apiBase = location.port === '5001' ? '' : 'http://127.0.0.1:5001';
+
+    async function requestJson(path, options) {
+      const response = await fetch(`${apiBase}${path}`, options);
+      const contentType = response.headers.get('content-type') || '';
+      if (!contentType.includes('application/json')) {
+        throw new Error(
+          'The model service returned a page instead of data. Restart it with "python app.py" (service runs on port 5001).'
+        );
+      }
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.error || 'The model service request failed.');
+      return data;
+    }
+
+    async function loadOptions() {
+      try {
+        const data = await requestJson('/api/options');
+
+        for (const field of ['magType', 'net', 'place']) {
+          const options = document.getElementById(`${field}-options`);
+          options.replaceChildren();
+          for (const value of data[field]) {
+            options.append(new Option(value, value));
+          }
+        }
+      } catch (error) {
+        serviceNote.textContent = error instanceof TypeError
+          ? 'Dataset suggestions are offline. Start the model service with "python app.py"; you can still type the exact dataset labels.'
+          : `Dataset suggestions are unavailable: ${error.message} You can still type the exact dataset labels.`;
+        serviceNote.classList.add('visible');
+      }
+    }
+
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      result.classList.remove('error');
+      result.classList.remove('success');
+      result.textContent = '';
+      serviceNote.classList.remove('visible');
+      submitButton.disabled = true;
+      submitButton.textContent = 'Estimating…';
+
+      const payload = Object.fromEntries(new FormData(form).entries());
+      for (const key of ['month', 'latitude', 'longitude', 'depth', 'nst', 'gap', 'dmin', 'rms']) {
+        payload[key] = Number(payload[key]);
+      }
+
+      try {
+        const data = await requestJson('/api/predict', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        result.classList.add('success');
+        result.textContent = `Magnitude: ${Number(data.magnitude).toFixed(1)}`;
+      } catch (error) {
+        result.classList.add('error');
+        result.textContent = error instanceof TypeError
+          ? 'The model service is not reachable. Start it with "python app.py" and reload this page.'
+          : error.message;
+      } finally {
+        submitButton.disabled = false;
+        submitButton.textContent = 'Estimate magnitude';
+      }
+    });
+
+    loadOptions();
+  </script>
+</body>
+</html>
