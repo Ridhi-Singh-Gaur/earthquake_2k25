@@ -1,5 +1,5 @@
 from pathlib import Path
-from urllib.parse import urlsplit
+import os
 
 import numpy as np
 import pandas as pd
@@ -30,24 +30,6 @@ app = Flask(__name__)
 _magnitude_model = None
 _encoders = None
 _scaler = None
-
-
-@app.after_request
-def allow_local_page_requests(response):
-    origin = request.headers.get("Origin")
-    if origin == "null":
-        response.headers["Access-Control-Allow-Origin"] = "null"
-    elif origin:
-        parsed_origin = urlsplit(origin)
-        if parsed_origin.scheme == "http" and parsed_origin.hostname in {
-            "localhost", "127.0.0.1", "::1"
-        }:
-            response.headers["Access-Control-Allow-Origin"] = origin
-    if response.headers.get("Access-Control-Allow-Origin"):
-        response.headers["Access-Control-Allow-Methods"] = "GET, POST, OPTIONS"
-        response.headers["Access-Control-Allow-Headers"] = "Content-Type"
-        response.headers["Vary"] = "Origin"
-    return response
 
 
 def _load_training_data():
@@ -115,6 +97,11 @@ def home():
     return send_from_directory(BASE_DIR, "index.html")
 
 
+@app.get("/api/health")
+def health():
+    return jsonify(status="ok")
+
+
 @app.get("/api/options")
 def prediction_options():
     try:
@@ -177,4 +164,8 @@ def project_file(filename):
 
 
 if __name__ == "__main__":
-    app.run(host="127.0.0.1", port=5001, debug=False)
+    app.run(
+        host="0.0.0.0",
+        port=int(os.environ.get("PORT", "5001")),
+        debug=False,
+    )
