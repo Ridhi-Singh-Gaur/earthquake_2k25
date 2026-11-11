@@ -250,7 +250,7 @@
       const contentType = response.headers.get('content-type') || '';
       if (!contentType.includes('application/json')) {
         throw new Error(
-          'The website host returned a page instead of API data. Deploy the Flask app with the included Render configuration.'
+          'The deployment returned a page instead of model data. Redeploy the latest project version with its Vercel configuration.'
         );
       }
       const data = await response.json();
@@ -271,7 +271,7 @@
         }
       } catch (error) {
         serviceNote.textContent = error instanceof TypeError
-          ? 'Dataset suggestions are offline. The Flask app must be deployed with this website for model requests to work.'
+          ? 'Dataset suggestions could not be loaded. Redeploy the latest project version; you can still type the exact dataset labels.'
           : `Dataset suggestions are unavailable: ${error.message} You can still type the exact dataset labels.`;
         serviceNote.classList.add('visible');
       }
@@ -302,7 +302,7 @@
       } catch (error) {
         result.classList.add('error');
         result.textContent = error instanceof TypeError
-          ? 'The model service is not available. Deploy the Flask app with this website and reload the page.'
+          ? 'The model API could not be reached. Redeploy the latest project version and reload this page.'
           : error.message;
       } finally {
         submitButton.disabled = false;
